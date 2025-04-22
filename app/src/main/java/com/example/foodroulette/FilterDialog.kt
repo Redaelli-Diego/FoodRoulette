@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.graphics.Color
 import com.example.foodroulette.model.TipoCucina
 
 @Composable
@@ -59,12 +61,15 @@ fun FilterDialog(
             Button(onClick = {
                 onResult(EstrazioneRisto(ristoranti,esclusi.toList()))                                                   //Chiamata alla funzione di sorteggio inserita qui passando gli elementi della lista finale
                 onDismiss()
-            }) {
+            },colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
+            ) {
                 Text("Applica")
             }
         },
         dismissButton = {
-            Button(onClick = onDismiss) {
+            Button(onClick = onDismiss
+                ,colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
+            ) {
                 Text("Annulla")
             }
         }

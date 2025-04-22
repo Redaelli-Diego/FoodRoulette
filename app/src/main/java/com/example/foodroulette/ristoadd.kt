@@ -90,12 +90,15 @@ fun ristoadd(onDismiss: () -> Unit, onSave: (Ristorante) -> Unit) {
                 if (nome.isNotBlank()) {
                     onSave(Ristorante(nome, costo, isFastFood, tipoCucina))
                 }
-            }) {
+            },colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
+            ) {
                 Text("Salva")
             }
         },
         dismissButton = {
-            Button(onClick = onDismiss) {
+            Button(onClick = onDismiss
+            ,colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
+            ) {
                 Text("Annulla")
             }
         }

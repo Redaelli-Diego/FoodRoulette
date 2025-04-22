@@ -76,7 +76,6 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var ristoranteSelezionato by remember { mutableStateOf<String?>(null) }
-    var filtriAttivi by remember {  mutableStateOf(setOf<TipoCucina>()) }
     var mostraLista by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {                                                                                                  //Necessaria per riprendere i ristoranti dopo aver chiuso la app

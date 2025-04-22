@@ -15,18 +15,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.*
+import com.example.foodroulette.model.TipoCucina
 
 @Composable
 fun FilterDialog(
+    ristoranti : List<Ristorante>,
     onDismiss: () -> Unit,
-    onApplyFilters: (List<String>) -> Unit
+    onResult: (String?) -> Unit
 ) {
-    val tipiCucina = listOf("Italiano", "Cinese", "Messicano", "Giapponese", "Fast Food")
-    var esclusi by remember { mutableStateOf(setOf<String>()) }
+
+    val tipiCucina = TipoCucina.values().sortedBy{it.label}                                         //Lista di tutti i ristoranti in ENUM tipoCuncina.kt
+    var esclusi by remember { mutableStateOf(setOf<TipoCucina>()) }                                 //Lista dei ristoranti che volgio escludere
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Escludi Tipi di Cucina") },
+        title = { Text("Quali Tipi di Cunina vuoi escludere?") },
         text = {
             Column {
                 tipiCucina.forEach { tipo ->
@@ -47,14 +50,14 @@ fun FilterDialog(
                                 esclusi = if (isChecked) esclusi + tipo else esclusi - tipo
                             }
                         )
-                        Text(tipo)
+                        Text(tipo.label)
                     }
                 }
             }
         },
         confirmButton = {
             Button(onClick = {
-                onApplyFilters(esclusi.toList())
+                onResult(EstrazioneRisto(ristoranti,esclusi.toList()))                                                   //Chiamata alla funzione di sorteggio inserita qui passando gli elementi della lista finale
                 onDismiss()
             }) {
                 Text("Applica")

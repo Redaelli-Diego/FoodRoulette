@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodroulette.data.RistoranteDataStore
+import com.example.foodroulette.model.TipoCucina
 import com.example.foodroulette.ui.theme.FoodRouletteTheme
 import kotlinx.coroutines.launch
 
@@ -74,8 +75,8 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
     var ristoranti by remember {mutableStateOf<List<Ristorante>>(emptyList())}
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    var ristoranteSelezionato by remember { mutableStateOf<Ristorante?>(null) }
-    var filtriAttivi by remember { mutableStateOf(emptyList<String>()) }
+    var ristoranteSelezionato by remember { mutableStateOf<String?>(null) }
+    var filtriAttivi by remember {  mutableStateOf(setOf<TipoCucina>()) }
     var mostraLista by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {                                                                                                  //Necessaria per riprendere i ristoranti dopo aver chiuso la app
@@ -85,7 +86,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
             }
         }
     }
-
+// -------------------Stampa del ristorante selezionato-----------------------------------------
     Surface (color = Color(0xFFB67233)) {
         Column(
             modifier = modifier,
@@ -95,7 +96,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
                 modifier = Modifier.height(200.dp)
             ) {
                 ristoranteSelezionato?.let { ristorante ->
-                    Text( "${ristorante.nome}", fontSize = 50.sp, fontWeight = FontWeight.Bold)
+                    Text( "${ristorante}", fontSize = 40.sp, fontWeight = FontWeight.Bold)
                 }
             }
 // -------------------Stampa della lista ristoranti-----------------------------------------
@@ -164,8 +165,10 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
 
     if (showFilterDialog) {
         FilterDialog(
+            ristoranti = ristoranti,
             onDismiss = { showFilterDialog = false },
-            onApplyFilters = { filtriAttivi = it }
+            onResult = {risultato -> ristoranteSelezionato = risultato}
+
         )
     }
 

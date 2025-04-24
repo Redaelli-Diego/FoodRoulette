@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,7 +117,15 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
                 modifier = Modifier.size(200.dp, 60.dp),
                 colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC)),
             ) {
-                Text(stringResource(R.string.ADV_Spin))
+                Text(
+                    text = "ESTRAZIONE",
+                    //size = 200.dp,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                        //.size()
+                    textAlign = TextAlign.Center,
+                    color = Color.Black,
+                )
             }
             Spacer(modifier = Modifier.height(20.dp))
 // -------------------Add and delete here-----------------------------------------
@@ -137,6 +148,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
 // -------------------Stop Grafica-----------------------------------------
         }
     }
+// -------------------Aggiunta Ristorante-----------------------------------------
     if (showADDialog) {
         ristoadd(                                                                                           //Dove viene aggiunto il nuovo ristorante alla lista
             onDismiss = { showADDialog = false },
@@ -149,6 +161,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
             }
         )
     }
+// -------------------Rimozione Ristorante-----------------------------------------
     if (deleteDialog) {
         ristoDel(
             onDismiss = { deleteDialog = false },
@@ -159,9 +172,10 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
                 }
                 deleteDialog = false
             }
+
         )
     }
-
+// -------------------Gestione tasto Estrazione Con Filtri-----------------------------------------
     if (showFilterDialog) {
         FilterDialog(
             ristoranti = ristoranti,
@@ -170,7 +184,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
 
         )
     }
-
+// -------------------Gestione tasto Mostra Lista-----------------------------------------
     if (mostraLista) {
         Log.d("DEBUG","Ristoranti: ${ristoranti.size} elementi, nella lista")
         ListaRistorantiDialog(

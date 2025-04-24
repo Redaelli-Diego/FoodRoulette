@@ -3,4 +3,7 @@
     <string name="ADV_Spin">Scelta personalizzata</string>
     <string name="add_option">Aggiungi</string>
     <string name="mod_option">Elimina</string>
+    <string name="Money">💲</string>
+    <string name="Delete">➖</string>
+
 </resources>

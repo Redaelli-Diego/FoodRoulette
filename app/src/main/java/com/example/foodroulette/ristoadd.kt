@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.foodroulette.model.TipoCucina
 import androidx.compose.material3.*
+import androidx.compose.ui.res.stringResource
 import com.example.foodroulette.ui.components.SelezioneTipoCucina
 
 
@@ -44,16 +45,16 @@ fun ristoadd(onDismiss: () -> Unit, onSave: (Ristorante) -> Unit) {
                     onValueChange = { nome = it },
                     label = { Text("Nome") }
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 SelezioneTipoCucina(
                     tipoSelezionato = tipoCucina,
                     onTipoCucinaChange = {tipoCucina = it}
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-                Text("Costo medio \uD83D\uDCB2: ")
+                Text("Costo medio " + stringResource(R.string.Money))
                 Row {
                     listOf(1, 2, 3).forEach { stelle ->                 //Inserimento di valutazione
                         Button(
@@ -63,19 +64,19 @@ fun ristoadd(onDismiss: () -> Unit, onSave: (Ristorante) -> Unit) {
                             ),
                             //modifier = Modifier.padding(4.dp)
                         ) {
-                            Text("\uD83D\uDCB2".repeat(stelle))
+                            Text(stringResource(R.string.Money).repeat(stelle))
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Switch per indicare se è Fast Food
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Fast Food")
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(20.dp))
                     Switch(
                         checked = isFastFood,
                         onCheckedChange = { isFastFood = it }

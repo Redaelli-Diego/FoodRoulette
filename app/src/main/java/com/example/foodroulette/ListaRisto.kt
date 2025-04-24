@@ -3,6 +3,7 @@ package com.example.foodroulette
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,14 +24,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -79,8 +84,23 @@ fun ListaRistorantiDialog(
                                     Column(modifier = Modifier.padding(8.dp)) {
                                         Text(ristorante.nome, fontWeight = FontWeight.Bold)
                                         Text("🍽 ${ristorante.tipo?.label ?: "N/D"}")
-                                        Text("💵".repeat(ristorante.costo))
+                                        Text(stringResource(R.string.Money).repeat(ristorante.costo))
                                         Text(if (ristorante.isFastFood) "🍔 Fast Food" else "🍽 Ristorante")
+                                    }
+                                    Button(
+                                        onClick = onDismiss,
+                                        modifier = Modifier
+                                            .align(Alignment.End)
+                                            .size(30.dp),
+                                        colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF52727)),
+                                        shape = CircleShape,
+                                        contentPadding = PaddingValues(0.dp),
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.Delete),
+                                            fontSize = 15.sp,
+                                        );
+
                                     }
                                 }
                             }

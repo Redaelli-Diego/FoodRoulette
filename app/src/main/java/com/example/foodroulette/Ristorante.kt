@@ -8,10 +8,4 @@ data class Ristorante(
     val costo: Int,
     val isFastFood : Boolean,
     val tipo : TipoCucina,
-){
-    companion object{
-        fun aggiungiRistorante(lista: List<Ristorante>, nuovoRistorante: Ristorante): List <Ristorante> {
-            return lista + nuovoRistorante
-        }
-    }
-}
+)

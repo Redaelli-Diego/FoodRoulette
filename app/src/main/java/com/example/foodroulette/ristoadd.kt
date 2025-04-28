@@ -28,7 +28,11 @@ import com.example.foodroulette.ui.components.SelezioneTipoCucina
 
 
 @Composable
-fun ristoadd(onDismiss: () -> Unit, onSave: (Ristorante) -> Unit) {
+fun ristoadd(
+    viewModel: GestioneRistorantiViewModel,
+    onDismiss: () -> Unit)
+    //onSave: (Ristorante) -> Unit
+    {
     var nome by remember { mutableStateOf("") }
     var tipoCucina by remember { mutableStateOf(TipoCucina.ITALIANA) }
     var costo by remember { mutableStateOf(1) }
@@ -89,7 +93,9 @@ fun ristoadd(onDismiss: () -> Unit, onSave: (Ristorante) -> Unit) {
             Button(onClick = {
 
                 if (nome.isNotBlank()) {
-                    onSave(Ristorante(nome, costo, isFastFood, tipoCucina))
+                    val nuovoRisto = (Ristorante(nome, costo, isFastFood, tipoCucina))
+                    viewModel.aggiungiRistorante(nuovoRisto)
+                    onDismiss()
                 }
             },colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
             ) {

@@ -19,7 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 
 
 @Composable
-fun ristoDel(onDismiss: () -> Unit, onDelete: (String) -> Unit) {
+fun ristoDel(
+    viewModel: GestioneRistorantiViewModel,
+    onDismiss: () -> Unit,
+) {
     var nome by remember { mutableStateOf("") }
 
     AlertDialog(
@@ -36,7 +39,15 @@ fun ristoDel(onDismiss: () -> Unit, onDelete: (String) -> Unit) {
             }
         },
         confirmButton = {
-            Button(onClick = { onDelete(nome) },
+
+            Button(onClick = {
+                val ristodel = viewModel.ristoranti.find{it.nome == nome}
+                if(ristodel!= null) {
+                    viewModel.eliminaRistorante(ristodel.nome)
+                    onDismiss()
+                }
+                },
+
                 colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))) {
                 Text("Elimina")
             }

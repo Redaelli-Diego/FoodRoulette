@@ -5,14 +5,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
@@ -34,13 +32,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodroulette.data.RistoranteDataStore
-import com.example.foodroulette.model.TipoCucina
 import com.example.foodroulette.ui.theme.FoodRouletteTheme
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 
@@ -49,21 +46,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: GestioneRistorantiViewModel = viewModel(
+                factory = GestioneRistorantiViewModelFactory(LocalContext.current)
+            )
             FoodRouletteTheme {
                 Surface(
                     color = MaterialTheme.colorScheme.background 
                 ) {
-                    FoodRoulette()
+                    FoodRoulette(viewModel)
                 }
             }
         }
     }
 }
 
-@Preview
+
 @Composable
-fun FoodRoulette() {
+fun FoodRoulette(viewModel: GestioneRistorantiViewModel) {
     FoodRouletteApp(
+        viewModel = viewModel,
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
@@ -71,12 +72,11 @@ fun FoodRoulette() {
 }
 
 @Composable
-fun FoodRouletteApp(modifier: Modifier = Modifier) {
+fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier = Modifier) {
     var showADDialog by remember { mutableStateOf(false) } //Variabile per form di aggiunta ristoranti
     var deleteDialog by remember { mutableStateOf(false) }
     var showFilterDialog by remember { mutableStateOf(false) }
-    var ristoranti by remember {mutableStateOf<List<Ristorante>>(emptyList())}
-    val coroutineScope = rememberCoroutineScope()
+    var ristoranti = viewModel.ristoranti
     val context = LocalContext.current
     var ristoranteSelezionato by remember { mutableStateOf<String?>(null) }
     var mostraLista by remember { mutableStateOf(false) }
@@ -84,7 +84,7 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
     LaunchedEffect(Unit) {                                                                                                  //Necessaria per riprendere i ristoranti dopo aver chiuso la app
         RistoranteDataStore.loadRistoranti(context).collect { lista ->
             if (lista.isNotEmpty()) {
-                ristoranti = lista // Aggiorniamo la lista con i dati salvati
+                ristoranti = lista.toMutableList() // Aggiorniamo la lista con i dati salvati
             }
         }
     }
@@ -107,7 +107,6 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
                 modifier = Modifier.size(200.dp, 60.dp),
                 colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC)),
             ) {
-                Log.d("DEBUG","Ristoranti: ${ristoranti.size} elementi, nel bottone")
                 Text("Visualizza Lista")
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -150,28 +149,16 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
     }
 // -------------------Aggiunta Ristorante-----------------------------------------
     if (showADDialog) {
-        ristoadd(                                                                                           //Dove viene aggiunto il nuovo ristorante alla lista
-            onDismiss = { showADDialog = false },
-            onSave = { nuovoRistorante ->
-               ristoranti = Ristorante.aggiungiRistorante(ristoranti,nuovoRistorante)
-                coroutineScope.launch {
-                    RistoranteDataStore.saveRistoranti(context, ristoranti) // Salviamo nel DataStore
-                }
-                showADDialog = false // Chiude il form dopo il salvataggio
-            }
+        ristoadd(                                                                                   //Dove viene aggiunto il nuovo ristorante alla lista
+            viewModel = viewModel,
+            onDismiss = { showADDialog = false }
         )
     }
 // -------------------Rimozione Ristorante-----------------------------------------
     if (deleteDialog) {
         ristoDel(
+            viewModel = viewModel,
             onDismiss = { deleteDialog = false },
-            onDelete = { nomeRistorante ->
-                ristoranti = ristoranti.filterNot { it.nome.equals(nomeRistorante, ignoreCase = true) }
-                coroutineScope.launch {
-                    RistoranteDataStore.saveRistoranti(context, ristoranti) // Salviamo nel DataStore
-                }
-                deleteDialog = false
-            }
 
         )
     }
@@ -186,9 +173,8 @@ fun FoodRouletteApp(modifier: Modifier = Modifier) {
     }
 // -------------------Gestione tasto Mostra Lista-----------------------------------------
     if (mostraLista) {
-        Log.d("DEBUG","Ristoranti: ${ristoranti.size} elementi, nella lista")
         ListaRistorantiDialog(
-            ristoranti = ristoranti,
+            viewModel = viewModel,
             onDismiss = { mostraLista = false }
         )
     }

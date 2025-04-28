@@ -36,13 +36,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
 fun ListaRistorantiDialog(
-    ristoranti: List<Ristorante>,
+    viewModel: GestioneRistorantiViewModel,
     onDismiss: () -> Unit
 ) {
+    val ristoranti = viewModel.ristoranti
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             modifier = Modifier
@@ -88,7 +90,7 @@ fun ListaRistorantiDialog(
                                         Text(if (ristorante.isFastFood) "🍔 Fast Food" else "🍽 Ristorante")
                                     }
                                     Button(
-                                        onClick = onDismiss,
+                                        onClick = { viewModel.eliminaRistorante(ristorante.nome) },
                                         modifier = Modifier
                                             .align(Alignment.End)
                                             .size(30.dp),

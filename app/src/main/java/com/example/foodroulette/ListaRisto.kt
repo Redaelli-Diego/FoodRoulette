@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardColors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -52,7 +53,7 @@ fun ListaRistorantiDialog(
                 .fillMaxHeight(0.8f)
                 .padding(0.dp),
             shape = RoundedCornerShape(1.dp),
-            color = Color.White,
+            color = Color(0xFFF5F5DC),
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -81,7 +82,13 @@ fun ListaRistorantiDialog(
                                 Card(
                                     modifier = Modifier
                                         .fillMaxSize(),
-                                    elevation = CardDefaults.cardElevation(4.dp)
+                                    elevation = CardDefaults.cardElevation(4.dp),
+                                    colors = CardColors(
+                                        containerColor = Color(0xFFA4EAF5),
+                                        contentColor = Color.DarkGray,
+                                        disabledContainerColor = Color.Transparent,
+                                        disabledContentColor = Color.Transparent
+                                    )
                                 ) {
                                     Column(modifier = Modifier.padding(8.dp)) {
                                         Text(ristorante.nome, fontWeight = FontWeight.Bold)

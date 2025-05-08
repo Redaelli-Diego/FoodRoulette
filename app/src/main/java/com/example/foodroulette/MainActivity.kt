@@ -1,5 +1,6 @@
 package com.example.foodroulette
 
+import android.graphics.Paint.Align
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -36,7 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodroulette.data.RistoranteDataStore
 import com.example.foodroulette.ui.theme.FoodRouletteTheme
-import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.Arrangement.Vertical
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
@@ -88,8 +93,23 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
             }
         }
     }
+
 // -------------------Stampa del ristorante selezionato-----------------------------------------
     Surface (color = Color(0xFFB67233)) {
+        Button(
+            onClick = { mostraLista = true },
+            modifier = Modifier
+                .padding(
+                    vertical = 50.dp
+                )
+                .size(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC)),
+            shape = CircleShape,
+            contentPadding = PaddingValues(0.dp),
+
+        ) {
+            Text(stringResource(R.string.Menu));
+        }
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -180,5 +200,6 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
     }
 
 }
+
 
 

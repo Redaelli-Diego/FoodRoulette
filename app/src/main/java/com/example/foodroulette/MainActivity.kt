@@ -94,7 +94,7 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
         }
     }
 
-// -------------------Aggiunta pulsante del menu-----------------------------------------
+//-------------------Aggiunta pulsante del menu-----------------------------------------
     Surface (color = Color(0xFFB67233)) {
         Button(
             onClick = { mostraLista = true },

@@ -94,7 +94,7 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
         }
     }
 
-// -------------------Stampa del ristorante selezionato-----------------------------------------
+// -------------------Aggiunta pulsante del menu-----------------------------------------
     Surface (color = Color(0xFFB67233)) {
         Button(
             onClick = { mostraLista = true },
@@ -110,6 +110,7 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
         ) {
             Text(stringResource(R.string.Menu));
         }
+// -------------------Stampa del ristorante selezionato-----------------------------------------
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,

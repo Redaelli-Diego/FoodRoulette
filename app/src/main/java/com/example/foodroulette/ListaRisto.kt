@@ -34,6 +34,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardColors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -47,18 +48,17 @@ fun ListaRistorantiDialog(
 ) {
     val ristoranti = viewModel.ristoranti
     Dialog(onDismissRequest = onDismiss) {
+        Box () {
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-                .padding(0.dp),
-            shape = RoundedCornerShape(1.dp),
+                .align(Alignment.TopCenter),
+            shape = RoundedCornerShape(10.dp),
             color = Color(0xFFF5F5DC),
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
 
-            ) {
+                ) {
                 Text(
                     text = "Lista Ristoranti",
                     style = MaterialTheme.typography.titleLarge,
@@ -68,7 +68,7 @@ fun ListaRistorantiDialog(
                     textAlign = TextAlign.Center,
                     color = Color.Black,
 
-                )
+                    )
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),  // 2 colonne
@@ -79,56 +79,69 @@ fun ListaRistorantiDialog(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(ristoranti) { ristorante ->
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
-                                    elevation = CardDefaults.cardElevation(4.dp),
-                                    colors = CardColors(
-                                        containerColor = Color(0xFFA4EAF5),
-                                        contentColor = Color.DarkGray,
-                                        disabledContainerColor = Color.Transparent,
-                                        disabledContentColor = Color.Transparent
-                                    )
-                                ) {
-                                    Column(modifier = Modifier.padding(8.dp)) {
-                                        Text(ristorante.nome, fontWeight = FontWeight.Bold)
-                                        Text("🍽 ${ristorante.tipo?.label ?: "N/D"}")
-                                        Text(stringResource(R.string.Money).repeat(ristorante.costo))
-                                        Text(if (ristorante.isFastFood) "🍔 Fast Food" else "🍽 Ristorante")
-                                    }
-                                    Button(
-                                        onClick = { viewModel.eliminaRistorante(ristorante.nome) },
-                                        modifier = Modifier
-                                            .align(Alignment.End)
-                                            .size(30.dp),
-                                        colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF52727)),
-                                        shape = CircleShape,
-                                        contentPadding = PaddingValues(0.dp),
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.Delete),
-                                            fontSize = 15.sp,
-                                        );
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                     Spacer(modifier = Modifier.height(20.dp))
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center // Centra il bottone
-                    ) {
-                        Button(
-                            onClick = onDismiss,
+                        Card(
                             modifier = Modifier
-                                .align(Alignment.BottomCenter),
-                            colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC))
+                                .fillMaxSize(),
+                            elevation = CardDefaults.cardElevation(4.dp),
+                            colors = CardColors(
+                                containerColor = Color(0xFFA4EAF5),
+                                contentColor = Color.DarkGray,
+                                disabledContainerColor = Color.Transparent,
+                                disabledContentColor = Color.Transparent
+                            )
                         ) {
-                            Text("Chiudi")
+                            Column(modifier = Modifier.padding(8.dp)) {
+                                Text(ristorante.nome, fontWeight = FontWeight.Bold)
+                                Text("🍽 ${ristorante.tipo?.label ?: "N/D"}")
+                                Text(stringResource(R.string.Money).repeat(ristorante.costo))
+                                Text(if (ristorante.isFastFood) "🍔 Fast Food" else "🍽 Ristorante")
+                            }
+                            Button(
+                                onClick = { viewModel.eliminaRistorante(ristorante.nome) },
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .size(30.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color(
+                                        0xFFF52727
+                                    )
+                                ),
+                                shape = CircleShape,
+                                contentPadding = PaddingValues(0.dp),
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.Delete),
+                                    fontSize = 15.sp,
+                                );
+
+                            }
                         }
                     }
                 }
             }
         }
+            Spacer(modifier = Modifier.size(10.dp))
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+            color = Color.Transparent,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF5F5DC))
+                ) {
+                    Text("Chiudi")
+                }
+            }
+
+        }
+        }
+
+    }
+}

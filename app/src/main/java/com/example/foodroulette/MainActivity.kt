@@ -133,7 +133,7 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
             Spacer(modifier = Modifier.height(20.dp))
 // -------------------SPIN HERE-----------------------------------------
             Button(
-                onClick = {showFilterDialog = true},
+                onClick = {showFilterDialog = true },
                 modifier = Modifier.size(200.dp, 60.dp),
                 colors = ButtonDefaults.buttonColors(containerColor  =  Color(0xFFF5F5DC)),
             ) {

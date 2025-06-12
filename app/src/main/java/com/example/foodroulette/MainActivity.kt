@@ -209,7 +209,6 @@ fun FoodRouletteApp(viewModel: GestioneRistorantiViewModel, modifier: Modifier =
                             Text(stringResource(R.string.mod_option))
                         }
                     }
-// -------------------Stop Grafica-----------------------------------------
                 }
             }
 // -------------------Aggiunta Ristorante-----------------------------------------
